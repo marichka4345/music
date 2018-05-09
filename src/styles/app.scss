@@ -1,0 +1,52 @@
+.main {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.panel {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  background: #8A458A;
+  font-size: 5em;
+  text-align: center;
+  color :white;
+  cursor: pointer;
+
+  transition-property: color;
+  transition-duration: 0.3s;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    width: .1px;
+
+    z-index: -1;
+    background: #370037;
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+    transition-property: transform;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+  }
+
+
+  &:hover::before {
+    width: 100%;
+    transform: scaleX(1);
+  }
+}
+
+.lightPanel {
+  composes: panel;
+  background: #BC72BC;
+}
+
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

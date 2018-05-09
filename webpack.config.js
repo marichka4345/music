@@ -9,7 +9,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const ExtractTextPluginConfig = new ExtractTextPlugin({
-  filename: "dist/main.css",
+  filename: "main.css",
   allChunks: true
 });
 
@@ -19,6 +19,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "app.bundle.js"
   },
+  resolve: { extensions: [".js", ".scss"] },
   module: {
     loaders: [
       {
@@ -27,15 +28,27 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.scss$/,
+        test: /\.global\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: ["css-loader", "sass-loader"]
         })
       },
       {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+        test: /^((?!\.global).)*\.scss$/,
+        exclude: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [
+            {
+              loader: "css-loader",
+              options: {
+                modules: true
+              }
+            },
+            { loader: "sass-loader" }
+          ]
+        })
       }
     ]
   },
